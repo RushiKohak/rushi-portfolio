@@ -1,0 +1,44 @@
+---
+import { Image } from 'astro:assets';
+import bottom1 from '../assets/photos/bottom-1.jpg';
+import bottom2 from '../assets/photos/bottom-2.jpg';
+import Section from './Section.astro';
+import SectionHeading from './SectionHeading.astro';
+import { getSite } from '../lib/content';
+
+const site = await getSite();
+const { gallery } = site;
+
+const sources = { 'bottom-1': bottom1, 'bottom-2': bottom2 };
+---
+
+<Section id="life">
+  <SectionHeading
+    eyebrow="Outside the editor"
+    title={gallery.heading}
+    intro={gallery.intro}
+  />
+
+  <div class="mt-12 grid gap-8 sm:grid-cols-2 sm:gap-6">
+    {
+      gallery.photos.map((photo, i) => (
+        <figure
+          class:list={['reveal', i === 1 && 'sm:mt-16']}
+          style={`--reveal-delay: ${i * 120}ms`}
+        >
+          <div class="frame">
+            <Image
+              src={sources[photo.file]}
+              alt={photo.alt}
+              widths={[400, 640, 800]}
+              sizes="(min-width: 640px) 45vw, 90vw"
+              loading="lazy"
+              class="aspect-[4/3] w-full object-cover"
+            />
+          </div>
+          <figcaption class="meta mt-3">{photo.caption}</figcaption>
+        </figure>
+      ))
+    }
+  </div>
+</Section>

@@ -1,0 +1,51 @@
+---
+import { getSite } from '../lib/content';
+
+interface Props {
+  variant?: 'nav' | 'hero';
+  align?: 'left' | 'right';
+}
+
+const { variant = 'nav', align = 'right' } = Astro.props;
+const site = await getSite();
+
+const trigger =
+  variant === 'hero'
+    ? 'btn gap-2.5 border-accent bg-accent text-bg hover:bg-bg'
+    : 'meta inline-flex items-center gap-2 transition-colors duration-200 hover:text-text';
+---
+
+<details class="group relative">
+  <summary
+    class:list={[
+      trigger,
+      'cursor-pointer select-none list-none [&::-webkit-details-marker]:hidden',
+    ]}
+  >
+    Resume
+    <span
+      class="inline-block h-1 w-1 rounded-full bg-current opacity-50"
+      aria-hidden="true"></span>
+    <span class="sr-only">— choose a version</span>
+  </summary>
+
+  <div
+    class:list={[
+      'absolute z-50 mt-3 w-60 border border-border bg-surface p-1',
+      align === 'right' ? 'right-0' : 'left-0',
+    ]}
+  >
+    {
+      site.resumes.map((resume) => (
+        <a
+          href={resume.href}
+          download
+          class="flex items-baseline justify-between gap-3 px-3 py-2.5 text-sm text-text transition-colors duration-200 hover:bg-bg hover:text-accent"
+        >
+          <span>{resume.label}</span>
+          <span class="meta text-[0.6rem]">{resume.meta}</span>
+        </a>
+      ))
+    }
+  </div>
+</details>

@@ -1,0 +1,70 @@
+---
+import { render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getPublishedPosts } from '../../lib/content';
+import { formatLongDate } from '../../lib/format';
+import NextLink from '../../components/NextLink.astro';
+
+export async function getStaticPaths() {
+  const posts = await getPublishedPosts();
+  return posts.map((post, index) => ({
+    params: { slug: post.id },
+    props: { post, next: posts[index + 1] ?? null },
+  }));
+}
+
+const { post, next } = Astro.props;
+const { Content } = await render(post);
+---
+
+<BaseLayout
+  title={`${post.data.title} — Rushi Kohak`}
+  description={post.data.description}
+  type="article"
+  publishedTime={post.data.date.toISOString()}
+>
+  <article>
+    <header class="border-b border-border">
+      <div class="wrap pb-12 pt-10 sm:pb-14 sm:pt-14">
+        <a
+          href="/blog/"
+          class="meta inline-flex items-center gap-2 transition-colors duration-200 hover:text-text"
+        >
+          <span aria-hidden="true">←</span> All writing
+        </a>
+
+        <p class="meta mt-10">
+          <time datetime={post.data.date.toISOString()}>
+            {formatLongDate(post.data.date)}
+          </time>
+          {post.data.tags.length > 0 && <> · {post.data.tags.join('  ·  ')}</>}
+        </p>
+
+        <h1 class="mt-4 max-w-3xl text-[clamp(2.25rem,5.5vw,3.5rem)] leading-[1.05]">
+          {post.data.title}
+        </h1>
+
+        <p class="measure mt-5 text-[1.125rem] leading-[1.65] text-muted">
+          {post.data.description}
+        </p>
+      </div>
+    </header>
+
+    <div class="wrap py-14 sm:py-20">
+      <div class="prose">
+        <Content />
+      </div>
+    </div>
+
+    {
+      next && (
+        <NextLink
+          href={`/blog/${next.id}/`}
+          title={next.data.title}
+          label="Next"
+          ariaLabel="Next post"
+        />
+      )
+    }
+  </article>
+</BaseLayout>

@@ -1,0 +1,181 @@
+---
+import Section from './Section.astro';
+import SectionHeading from './SectionHeading.astro';
+import { getSite } from '../lib/content';
+
+const site = await getSite();
+const { contact, links } = site;
+
+/** Until a real Web3Forms key is pasted in, the form stays visibly switched off. */
+const configured = !contact.accessKey.startsWith('ADD-');
+
+const field =
+  'mt-2 w-full border border-border bg-surface px-3.5 py-2.5 text-sm text-text placeholder:text-muted/70 transition-colors duration-200 focus:border-accent';
+
+const details = [
+  { label: 'Email', value: links.email, href: `mailto:${links.email}` },
+  {
+    label: 'Phone',
+    value: links.phone,
+    href: `tel:${links.phone.replace(/[^+\d]/g, '')}`,
+  },
+  {
+    label: 'LinkedIn',
+    value: links.linkedin.replace('https://www.', '').replace(/\/$/, ''),
+    href: links.linkedin,
+  },
+  { label: 'GitHub', value: links.github.replace('https://', ''), href: links.github },
+];
+---
+
+<Section id="contact">
+  <SectionHeading eyebrow="Contact" title={contact.heading} intro={contact.intro} />
+
+  <div class="mt-12 grid gap-12 lg:grid-cols-[minmax(0,1fr)_16rem] lg:gap-20">
+    <form
+      id="contact-form"
+      method="POST"
+      action={configured ? 'https://api.web3forms.com/submit' : undefined}
+      data-configured={configured ? 'true' : 'false'}
+      class="reveal max-w-xl"
+    >
+      <input type="hidden" name="access_key" value={contact.accessKey} />
+      <input type="hidden" name="subject" value={contact.subject} />
+      <input type="hidden" name="from_name" value={`${site.name} — portfolio`} />
+      <input
+        type="checkbox"
+        name="botcheck"
+        class="hidden"
+        tabindex="-1"
+        autocomplete="off"
+        aria-hidden="true"
+      />
+
+      <div class="grid gap-5 sm:grid-cols-2">
+        <div>
+          <label for="name" class="meta block">Name</label>
+          <input
+            id="name"
+            name="name"
+            type="text"
+            required
+            autocomplete="name"
+            placeholder="Your name"
+            class={field}
+          />
+        </div>
+
+        <div>
+          <label for="email" class="meta block">Email</label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            required
+            autocomplete="email"
+            placeholder="you@example.com"
+            class={field}
+          />
+        </div>
+      </div>
+
+      <div class="mt-5">
+        <label for="message" class="meta block">Message</label>
+        <textarea
+          id="message"
+          name="message"
+          rows="5"
+          required
+          placeholder="A few lines is plenty."
+          class={`${field} resize-y`}></textarea>
+      </div>
+
+      <div class="mt-6 flex flex-wrap items-center gap-5">
+        <button
+          type="submit"
+          disabled={!configured}
+          class="btn disabled:cursor-not-allowed disabled:text-muted disabled:hover:border-border"
+        >
+          Send message
+        </button>
+        <p class="meta">{contact.note}</p>
+      </div>
+
+      <p
+        id="contact-status"
+        role="status"
+        aria-live="polite"
+        class="meta mt-4 min-h-[1.4em] normal-case tracking-normal"
+      >
+      </p>
+
+      {
+        !configured && (
+          <p class="mt-4 border-l border-accent pl-3 text-xs leading-relaxed text-muted">
+            The form is not connected yet. Until the Web3Forms access key is added under
+            <code class="font-mono text-text">contact.accessKey</code> in
+            <code class="font-mono text-text">src/content/site/site.json</code>, email
+            <a href={`mailto:${links.email}`} class="link">{links.email}</a> or call
+            <a href={`tel:${links.phone.replace(/[^+\d]/g, '')}`} class="link">{links.phone}</a>.
+          </p>
+        )
+      }
+    </form>
+
+    <div class="reveal" style="--reveal-delay: 120ms">
+      <dl class="border-t border-border">
+        {
+          details.map((detail) => (
+            <div class="border-b border-border py-4">
+              <dt class="meta">{detail.label}</dt>
+              <dd class="mt-1.5 text-sm">
+                <a href={detail.href} class="link break-words">
+                  {detail.value}
+                </a>
+              </dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </div>
+</Section>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('#contact-form');
+  const status = document.querySelector<HTMLElement>('#contact-status');
+
+  if (form && status && form.dataset.configured === 'true') {
+    const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (!button) return;
+
+      button.disabled = true;
+      status.textContent = 'Sending…';
+
+      try {
+        const response = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { Accept: 'application/json' },
+        });
+        const result = await response.json();
+
+        if (response.ok && result.success) {
+          form.reset();
+          status.textContent = "Thanks — it's on its way. I'll reply to the address you left.";
+        } else {
+          status.textContent =
+            'That did not go through. Try again, or email me directly using the address on the right.';
+        }
+      } catch {
+        status.textContent =
+          'Network trouble. Try again, or email me directly using the address on the right.';
+      } finally {
+        button.disabled = false;
+      }
+    });
+  }
+</script>

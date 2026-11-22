@@ -1,0 +1,63 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getPublishedPosts } from '../../lib/content';
+import { formatDate } from '../../lib/format';
+
+const posts = await getPublishedPosts();
+---
+
+<BaseLayout
+  title="Writing — Rushi Kohak"
+  description="Notes on backend systems, C++, and the things I got wrong the first time."
+>
+  <div class="border-b border-border">
+    <div class="wrap pb-12 pt-12 sm:pb-16 sm:pt-16">
+      <p class="meta eyebrow">Writing</p>
+      <h1 class="mt-4 text-[clamp(2.5rem,6vw,4rem)] leading-[1.02]">
+        Notes from the build
+      </h1>
+      <p class="measure mt-5 text-[1.125rem] leading-[1.65] text-muted">
+        Longer thoughts on the parts of a project that don't fit in a case study
+        — usually the decisions I got wrong first.
+      </p>
+    </div>
+  </div>
+
+  <div class="wrap py-12 sm:py-16">
+    {
+      posts.length === 0 ? (
+        <p class="text-muted">Nothing published yet.</p>
+      ) : (
+        <ul class="border-t border-border">
+          {posts.map((post) => (
+            <li class="group relative border-b border-border py-7">
+              <article class="grid gap-3 sm:grid-cols-[8rem_minmax(0,1fr)] sm:gap-8">
+                <p class="meta sm:pt-2">
+                  <time datetime={post.data.date.toISOString()}>
+                    {formatDate(post.data.date)}
+                  </time>
+                </p>
+                <div>
+                  <h2 class="text-[1.6rem] leading-[1.2]">
+                    <a
+                      href={`/blog/${post.id}/`}
+                      class="text-text transition-colors duration-200 after:absolute after:inset-0 hover:text-accent group-hover:text-accent"
+                    >
+                      {post.data.title}
+                    </a>
+                  </h2>
+                  <p class="measure mt-2 text-sm leading-relaxed text-muted">
+                    {post.data.description}
+                  </p>
+                  {post.data.tags.length > 0 && (
+                    <p class="meta mt-3">{post.data.tags.join('  ·  ')}</p>
+                  )}
+                </div>
+              </article>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </div>
+</BaseLayout>

@@ -1,0 +1,50 @@
+---
+import { Image } from 'astro:assets';
+import heroPhoto from '../assets/photos/hero.jpg';
+import { getSite } from '../lib/content';
+import ResumeMenu from './ResumeMenu.astro';
+
+const site = await getSite();
+const { hero } = site;
+---
+
+<section class="border-b border-border">
+  <div
+    class="wrap grid gap-10 pb-16 pt-14 sm:pb-20 sm:pt-20 lg:grid-cols-[minmax(0,1fr)_19rem] lg:items-end lg:gap-24 lg:pb-24 lg:pt-28"
+  >
+    <div class="reveal">
+      <p class="meta eyebrow">{hero.eyebrow}</p>
+
+      <h1 class="mt-5 text-hero">{site.name}</h1>
+
+      <p class="measure mt-6 text-[1.125rem] leading-[1.65] text-text">
+        {hero.intro}
+      </p>
+
+      <div class="mt-9 flex flex-wrap items-center gap-3">
+        <ResumeMenu variant="hero" align="left" />
+        <a href="#contact" class="btn">Get in touch</a>
+      </div>
+
+      <p class="meta mt-8">{hero.status}</p>
+    </div>
+
+    <figure
+      class="reveal w-full max-w-[19rem] lg:max-w-none"
+      style="--reveal-delay: 120ms"
+    >
+      <div class="frame">
+        <Image
+          src={heroPhoto}
+          alt={hero.photoAlt}
+          widths={[320, 480, 640]}
+          sizes="(min-width: 1024px) 19rem, 72vw"
+          loading="eager"
+          fetchpriority="high"
+          class="h-auto w-full object-cover"
+        />
+      </div>
+      <figcaption class="meta mt-3">{hero.photoCaption}</figcaption>
+    </figure>
+  </div>
+</section>

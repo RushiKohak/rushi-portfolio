@@ -1,0 +1,32 @@
+---
+/**
+ * The footer link that walks a reader to the next case study or post.
+ * Both article types render exactly the same block, so it lives here once.
+ */
+interface Props {
+  href: string;
+  title: string;
+  /** Visible label above the link, e.g. "Next case study". */
+  label: string;
+  /** Landmark name for screen readers, e.g. "Next project". */
+  ariaLabel: string;
+}
+
+const { href, title, label, ariaLabel } = Astro.props;
+---
+
+<nav aria-label={ariaLabel} class="border-t border-border">
+  <div class="wrap py-10 sm:py-12">
+    <p class="meta">{label}</p>
+    <a
+      href={href}
+      class="group mt-3 inline-flex items-baseline gap-3 font-serif text-2xl text-text transition-colors duration-200 hover:text-accent sm:text-3xl"
+    >
+      {title}
+      <span
+        class="font-mono text-sm transition-transform duration-200 group-hover:translate-x-1"
+        aria-hidden="true">→</span
+      >
+    </a>
+  </div>
+</nav>

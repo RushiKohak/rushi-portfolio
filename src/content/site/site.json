@@ -1,0 +1,155 @@
+{
+  "site": {
+    "name": "Rushi Kohak",
+    "titleLine": "Software engineer",
+    "location": "Pune, India",
+    "hero": {
+      "eyebrow": "Final-year IT student · Pune",
+      "intro": "I build backend systems that hold up under load — a Redis-compatible server in C++, a payments ledger in Java — and the interface on top when it helps someone actually use them.",
+      "status": "Looking for software engineering placements for 2027.",
+      "photoAlt": "Portrait of Rushi Kohak in a grey blazer over a white T-shirt, against a plain wall",
+      "photoCaption": "Pune · 2026"
+    },
+    "roles": ["SDE", "AI / ML"],
+    "links": {
+      "github": "https://github.com/RushiKohak",
+      "linkedin": "https://www.linkedin.com/in/rushi-kohak-5776b43a3/",
+      "email": "rushiwork007@gmail.com",
+      "phone": "+91 95793 97116"
+    },
+    "codingProfiles": [],
+    "resumes": [
+      { "label": "SDE", "href": "/resume-sde.pdf", "meta": "PDF · 1 page" },
+      { "label": "AI / ML", "href": "/resume-aiml.pdf", "meta": "PDF · 2 pages" }
+    ],
+    "seo": {
+      "description": "Rushi Kohak — final-year IT engineering student in Pune. Backend systems in C++ and Java, AI tooling, and the interfaces that make them usable."
+    },
+    "about": {
+      "heading": "I got here by taking things apart",
+      "body": [
+        "I'm a final-year information technology student in Pune. My way into software wasn't a childhood obsession with computers — it was a stubborn need to know how the things I used every day actually worked. That curiosity turned into servers, ledgers, and the occasional small tool I needed and nobody had written yet.",
+        "Most of what I know came from rebuilding something that already existed. Writing a Redis-compatible server in C++ taught me more about memory and concurrency than any course did. Building a payments ledger forced me to care about the boring, important parts: idempotency, ordering, and what happens when the network drops halfway through a transaction.",
+        "Right now I'm looking for a software engineering placement where I can work on systems at a scale I can't simulate on my own laptop. I care about code someone else can read at 2am, and about shipping things that actually reach people."
+      ],
+      "facts": [
+        { "label": "Studying", "value": "B.E. Information Technology, final year" },
+        { "label": "Based in", "value": "Pune, India" },
+        { "label": "Focused on", "value": "Backend systems, distributed data, applied ML" },
+        { "label": "Looking for", "value": "SDE placements, 2027" }
+      ]
+    },
+    "skills": {
+      "intro": "The tools I've actually shipped something with — not a list of everything I've installed once.",
+      "groups": [
+        {
+          "label": "Languages",
+          "items": ["C++", "Java", "Python", "TypeScript", "SQL"]
+        },
+        {
+          "label": "Backend & systems",
+          "items": ["Node.js", "Express", "REST APIs", "Multithreading", "RESP / Redis protocol", "JWT auth"]
+        },
+        {
+          "label": "Data",
+          "items": ["PostgreSQL", "MongoDB", "Redis", "pandas", "SQL analytics"]
+        },
+        {
+          "label": "AI & ML",
+          "items": ["PyTorch", "scikit-learn", "Ollama", "RAG", "Vector search"]
+        },
+        {
+          "label": "Frontend",
+          "items": ["React", "Astro", "Tailwind CSS"]
+        },
+        {
+          "label": "Practices",
+          "items": ["Git", "Linux", "Docker", "Unit testing", "CI on GitHub Actions"]
+        }
+      ]
+    },
+    "timeline": [
+      {
+        "year": "2023 — 2027",
+        "tag": "Education",
+        "title": "B.E. Information Technology",
+        "detail": "JSPM College of Engineering, Pune. Coursework in data structures, operating systems, databases and computer networks. CGPA 8.02 / 10."
+      },
+      {
+        "year": "2026",
+        "tag": "Achievement",
+        "title": "Young Turks 2026 — 96.50 percentile",
+        "detail": "Scored 96.50 percentile in Round 1 of Naukri Campus Young Turks, India's largest skill contest, on data structures, aptitude and problem solving. Certificate ID 6acf48ee4e85f92659e6294d."
+      },
+      {
+        "year": "2022",
+        "tag": "Achievement",
+        "title": "JEE Main — qualified for JEE Advanced",
+        "detail": "Sat the JEE Main engineering entrance exam after school and qualified for JEE Advanced, the next stage of the IIT admissions process."
+      },
+      {
+        "year": "2020 — 2022",
+        "tag": "Education",
+        "title": "HSC, Science",
+        "detail": "Vikhe Patil Junior College, Ahmednagar. Maharashtra State Board higher secondary certificate, science stream. 84%."
+      },
+      {
+        "year": "2020",
+        "tag": "Education",
+        "title": "Class 10, CBSE",
+        "detail": "Icon Public School, Ahmednagar. CBSE Class 10 board exams, 87% overall — and the top score in mathematics for my batch."
+      },
+      {
+        "year": "2016 — 2020",
+        "tag": "Sport",
+        "title": "Cricket and football",
+        "detail": "Played cricket up to district level and football for my school team — the part of my week that had nothing to do with a screen."
+      }
+    ],
+    "now": {
+      "intro": "A snapshot of what has my attention this month. It goes stale, so I date it.",
+      "updated": "Last updated · November 2026",
+      "items": [
+        {
+          "label": "Building",
+          "value": "Sharpening the Redis server — persistence, replication, and the parts that only hurt under load."
+        },
+        {
+          "label": "Learning",
+          "value": "Distributed systems properly, from the Raft paper upwards, instead of by osmosis."
+        },
+        {
+          "label": "Reading",
+          "value": "[ADD: a book, paper or blog you're working through]"
+        },
+        {
+          "label": "Looking for",
+          "value": "Software engineering placements for 2027 — backend or systems, Pune or remote."
+        }
+      ]
+    },
+    "contact": {
+      "heading": "Let's talk",
+      "intro": "I'm looking for software engineering placements for 2027 — but I'm just as happy to hear about a project, a bug you can't pin down, or something you think I got wrong on this site.",
+      "note": "I read everything and usually reply within two days.",
+      "subject": "New message from your portfolio",
+      "accessKey": "ADD-YOUR-WEB3FORMS-ACCESS-KEY"
+    },
+    "gallery": {
+      "heading": "Life outside code",
+      "intro": "Two frames that probably say more about me than the skills list does.",
+      "photos": [
+        {
+          "file": "bottom-1",
+          "alt": "A notebook and pen open on a wooden desk beside a cooling cup of coffee",
+          "caption": "Most designs start here, on paper, badly."
+        },
+        {
+          "file": "bottom-2",
+          "alt": "A wet city street at night, lit by shop signs and reflecting the traffic",
+          "caption": "Pune after rain. Good place to think."
+        }
+      ]
+    }
+  }
+}

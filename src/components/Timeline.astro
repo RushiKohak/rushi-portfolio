@@ -1,0 +1,37 @@
+---
+import Section from './Section.astro';
+import SectionHeading from './SectionHeading.astro';
+import { getSite } from '../lib/content';
+
+const site = await getSite();
+const { timeline } = site;
+---
+
+<Section id="timeline">
+  <SectionHeading
+    eyebrow="Education & achievements"
+    title="The short version"
+    intro="College, the things that happened alongside it, and the milestones worth naming."
+  />
+
+  <ol class="reveal mt-12 border-t border-border">
+    {
+      timeline.map((item) => (
+        <li class="grid gap-2 border-b border-border py-6 sm:grid-cols-[9rem_minmax(0,1fr)] sm:gap-8">
+          <p class="meta sm:pt-2">{item.year}</p>
+          <div>
+            <div class="flex flex-wrap items-baseline gap-x-3 gap-y-2">
+              <h3 class="text-h3 text-text">{item.title}</h3>
+              <span class="meta border border-border px-2 py-0.5 text-[0.55rem] tracking-[0.08em]">
+                {item.tag}
+              </span>
+            </div>
+            <p class="measure mt-2 text-sm leading-relaxed text-muted">
+              {item.detail}
+            </p>
+          </div>
+        </li>
+      ))
+    }
+  </ol>
+</Section>

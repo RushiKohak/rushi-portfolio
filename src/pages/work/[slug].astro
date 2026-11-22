@@ -1,0 +1,112 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import NextLink from '../../components/NextLink.astro';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map((project) => ({ params: { slug: project.id } }));
+}
+
+const { slug } = Astro.params;
+const projects = await getCollection('projects');
+const project = projects.find((p) => p.id === slug);
+
+if (!project) {
+  throw new Error(`No project found for slug "${slug}"`);
+}
+
+const { Content } = await render(project);
+const { title, summary, domain, year, role, timeframe, stack, links } =
+  project.data;
+
+const ordered = [...projects].sort((a, b) => a.data.order - b.data.order);
+const currentIndex = ordered.findIndex((p) => p.id === project.id);
+const next = ordered[(currentIndex + 1) % ordered.length];
+---
+
+<BaseLayout
+  title={`${title} — case study`}
+  description={summary}
+  type="article"
+>
+  <article>
+    <header class="border-b border-border">
+      <div class="wrap pb-12 pt-10 sm:pb-16 sm:pt-14">
+        <a
+          href="/#work"
+          class="meta inline-flex items-center gap-2 transition-colors duration-200 hover:text-text"
+        >
+          <span aria-hidden="true">←</span> All work
+        </a>
+
+        <p class="meta mt-10">{domain} · {year}</p>
+        <h1 class="mt-4 text-[clamp(2.5rem,6vw,4rem)] leading-[1.02]">
+          {title}
+        </h1>
+        <p class="measure mt-5 text-[1.125rem] leading-[1.65] text-text">
+          {summary}
+        </p>
+
+        <dl
+          class="mt-10 grid gap-x-8 gap-y-5 border-t border-border pt-6 sm:grid-cols-2 lg:grid-cols-[10rem_10rem_1fr]"
+        >
+          <div>
+            <dt class="meta">Role</dt>
+            <dd class="mt-1.5 text-sm text-text">{role}</dd>
+          </div>
+          <div>
+            <dt class="meta">Timeframe</dt>
+            <dd class="mt-1.5 text-sm text-text">{timeframe}</dd>
+          </div>
+          <div>
+            <dt class="meta">Stack</dt>
+            <dd class="mt-1.5 text-sm text-text">{stack.join(' · ')}</dd>
+          </div>
+        </dl>
+
+        {
+          links.length > 0 && (
+            <div class="mt-8 border-t border-border pt-6">
+              <p class="meta">Links</p>
+              <ul class="mt-3 flex flex-wrap gap-x-6 gap-y-2">
+                {links.map((link) => (
+                  <li>
+                    <a
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="link text-sm"
+                    >
+                      {link.label}
+                      <span aria-hidden="true"> ↗</span>
+                      <span class="sr-only">(opens in a new tab)</span>
+                    </a>
+                    {link.note && (
+                      <span class="mt-1 block max-w-sm text-xs text-muted">
+                        {link.note}
+                      </span>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+      </div>
+    </header>
+
+    <div class="wrap py-14 sm:py-20">
+      <div class="prose">
+        <Content />
+      </div>
+    </div>
+
+    <NextLink
+      href={`/work/${next.id}/`}
+      title={next.data.title}
+      label="Next case study"
+      ariaLabel="Next project"
+    />
+  </article>
+</BaseLayout>

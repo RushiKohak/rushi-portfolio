@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.astro/
+.env
+.env.*
+.DS_Store
+*.log
+
+# tooling / local-only
+.freebuff/
+.cloud-attachments/

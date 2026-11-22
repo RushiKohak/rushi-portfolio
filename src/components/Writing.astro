@@ -1,0 +1,52 @@
+---
+import Section from './Section.astro';
+import SectionHeading from './SectionHeading.astro';
+import { getPublishedPosts } from '../lib/content';
+import { formatDate } from '../lib/format';
+
+const posts = (await getPublishedPosts()).slice(0, 3);
+---
+
+{
+  posts.length > 0 && (
+    <Section id="writing">
+      <div class="flex flex-wrap items-end justify-between gap-6">
+        <SectionHeading
+          eyebrow="Writing"
+          title="Notes from the build"
+          intro="The bits that don't fit in a case study — usually the decisions I got wrong first."
+        />
+        <a href="/blog/" class="meta link shrink-0">
+          All writing →
+        </a>
+      </div>
+
+      <ul class="reveal mt-12 border-t border-border">
+        {posts.map((post) => (
+          <li class="group relative border-b border-border py-6">
+            <article class="grid gap-2 sm:grid-cols-[8rem_minmax(0,1fr)] sm:gap-8">
+              <p class="meta sm:pt-1.5">
+                <time datetime={post.data.date.toISOString()}>
+                  {formatDate(post.data.date)}
+                </time>
+              </p>
+              <div>
+                <h3 class="text-[1.35rem] leading-[1.25]">
+                  <a
+                    href={`/blog/${post.id}/`}
+                    class="text-text transition-colors duration-200 after:absolute after:inset-0 hover:text-accent group-hover:text-accent"
+                  >
+                    {post.data.title}
+                  </a>
+                </h3>
+                <p class="measure mt-2 text-sm leading-relaxed text-muted">
+                  {post.data.description}
+                </p>
+              </div>
+            </article>
+          </li>
+        ))}
+      </ul>
+    </Section>
+  )
+}
